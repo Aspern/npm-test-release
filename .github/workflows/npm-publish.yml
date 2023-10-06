@@ -33,5 +33,6 @@ jobs:
       - name: Test
         run: |
           echo $RELEASE_VERSION
-          jq -r --arg $RELEASE_VERSION "$RELEASE_VERSION"  '.version="$RELEASE_VERSION"' package.json > package.json
+          UPDATED_PACKAGE_FILE=$(jq -r --arg $RELEASE_VERSION "$RELEASE_VERSION" '.version="$RELEASE_VERSION"' package.json > package.json)
+          echo $UPDATED_PACKAGE_FILE | json_pp > package.json
       - run: npm publish --dry-run
