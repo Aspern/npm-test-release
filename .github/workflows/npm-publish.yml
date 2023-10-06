@@ -33,5 +33,5 @@ jobs:
       - name: Test
         run: |
           echo $RELEASE_VERSION
-          jq -r --arg $RELEASE_VERSION "$RELEASE_VERSION"  '.version="$RELEASE_VERSION"' package.json >> package.json
+          jq -r --arg $RELEASE_VERSION "$RELEASE_VERSION"  '.version="$RELEASE_VERSION"' package.json > package.json
       - run: npm publish --dry-run
