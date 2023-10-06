@@ -33,5 +33,5 @@ jobs:
       - name: Test
         run: |
           echo $RELEASE_VERSION
-          echo ${{ env.RELEASE_VERSION }}
+          jq '.version="{{$RELEASE_VERSION}}"' package.json
       - run: npm publish --dry-run
