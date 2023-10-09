@@ -28,15 +28,19 @@ jobs:
           node-version: 16
           registry-url: https://registry.npmjs.org/
       - run: npm ci
-      - name: Set env
-        run: echo "RELEASE_VERSION=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
-      - name: Test
+      - name: set release version
         run: |
-          echo $RELEASE_VERSION
+          # Using Tag as version number for next release
+          echo "RELEASE_VERSION=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
+      - name: bump version in package.json
+        run: |
+          echo "Creation release with version $RELEASE_VERSION"
           
+          # jq can't replace file contents directly therefore a tmp file is needed
           tmp_file=$(mktemp)
-  
+          
           cp package.json "$tmp_file" \
             && jq --arg version "$RELEASE_VERSION" '.version=$version' "$tmp_file" >package.json \
             && rm -f "$tmp_file"
-      - run: npm publish --dry-run
+      - name: publish npm package
+        run: npm publish --dry-run
