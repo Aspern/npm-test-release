@@ -8,6 +8,9 @@ on:
     tags:
       - '\d+.\d+.\d+'
 
+env:
+  RELEASE_VERSION: ${{ github.ref_name  }}
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -28,10 +31,10 @@ jobs:
           node-version: 16
           registry-url: https://registry.npmjs.org/
       - run: npm ci
-      - name: set release version
-        run: |
-          # Using Tag as version number for next release
-          echo "RELEASE_VERSION=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
+#      - name: set release version
+#        run: |
+#          # Using Tag as version number for next release
+#          echo "RELEASE_VERSION=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
       - name: validate version number
         run: |
           # Currently only validates stable versions
