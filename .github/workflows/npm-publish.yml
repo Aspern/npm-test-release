@@ -62,4 +62,4 @@ jobs:
             && jq --arg version "$RELEASE_VERSION" '.version=$version' "$tmp_file" >package.json \
             && rm -f "$tmp_file"
       - name: publish npm package
-        run: npm publish --dry-run
+        run: npm publish --dry-run --access public
